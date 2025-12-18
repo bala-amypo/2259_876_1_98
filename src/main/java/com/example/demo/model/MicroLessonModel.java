@@ -30,9 +30,9 @@ public class MicroLessonModel {
 
     private LocalDate publishDate;
 
-    public MicroLesson() {}
+    public MicroLessonModel() {}
 
-    public MicroLesson(Course course, String title, Integer durationMinutes,ContentType contentType, Difficulty difficulty,String tags, LocalDate publishDate) {
+    public MicroLessonModel(Course course, String title, Integer durationMinutes,ContentType contentType, Difficulty difficulty,String tags, LocalDate publishDate) {
         this.course = course;
         this.title = title;
         this.durationMinutes = durationMinutes;
