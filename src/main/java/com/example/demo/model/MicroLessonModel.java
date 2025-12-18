@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import jakarta.persistence.*;
 
 @Entity
-public class MicroLesson {
+public class MicroLessonModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
