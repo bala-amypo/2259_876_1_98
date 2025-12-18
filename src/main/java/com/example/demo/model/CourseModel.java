@@ -14,9 +14,11 @@ public class CourseModel {
     private String title;
 
     private String description;
+
     @ManyToOne
     @JoinColumn(name="instructor_id")
     private UserModel instructor;
+    
     private String category;
     private LocalDateTime createdAt;
     @PrePersist
