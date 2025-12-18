@@ -20,13 +20,11 @@ public class MicroLesson {
     @Column(nullable = false)
     private Integer durationMinutes;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ContentType contentType;
+    private String contentType;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Difficulty difficulty;
+    private String difficulty;
 
     private String tags;
 
