@@ -1,16 +1,19 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class UserModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +24,26 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    private String role; 
+    private String role;
 
     private String preferredLearningStyle;
 
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "instructor")
+    private List<Course> courses;
+
+    @OneToMany(mappedBy = "user")
+    private List<Progress> progressList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Recommendation> recommendations;
+
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.role == null) {
-            this.role = "LEARNER";
-        }
     }
 }
