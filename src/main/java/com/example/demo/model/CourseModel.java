@@ -15,9 +15,15 @@ public class CourseModel {
 
     @Column(nullable=false)
     private String title;
-    
+
     private String description;
     private UserModel instructor;
+    private String category;
+    private LocalDateTime createdAt;
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
     public Long getId() {
         return id;
     }
