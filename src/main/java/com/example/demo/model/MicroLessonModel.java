@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-public class MicroLesson {
+public class MicroLessonModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
