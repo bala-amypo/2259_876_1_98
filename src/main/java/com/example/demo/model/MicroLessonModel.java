@@ -31,7 +31,7 @@ public class MicroLessonModel {
     private LocalDate publishDate;
     @PrePersist
     public void prePersist() {
-        this.publishDate = LocalDateTime.now();
+        this.publishDate = LocalDate.now();
     }
 
     public MicroLessonModel() {}
