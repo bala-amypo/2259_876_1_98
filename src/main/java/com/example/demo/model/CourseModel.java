@@ -13,7 +13,7 @@ public class CourseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    
     private String title;
 
     private String description;
@@ -24,6 +24,8 @@ public class CourseModel {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
+    private String Category;
+    private LocalDateTime createdAt;
     public Long getId() {
         return id;
     }
@@ -60,8 +62,6 @@ public class CourseModel {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    private String Category;
-    private LocalDateTime createdAt;
     public CourseModel(Long id, String title, String description, UserModel instructor, String category,
             LocalDateTime createdAt) {
         this.id = id;
