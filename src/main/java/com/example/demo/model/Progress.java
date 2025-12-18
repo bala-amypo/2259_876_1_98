@@ -1,17 +1,19 @@
 package com.example.demo.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class ProgressModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "progress")
+public class Progress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,13 +21,13 @@ public class ProgressModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserModel user;
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "lesson_id", nullable = false)
-    private MicroLessonModel microLesson;
+    @JoinColumn(name = "micro_lesson_id", nullable = false)
+    private MicroLesson microLesson;
 
-    private String status; // NOT_STARTED / IN_PROGRESS / COMPLETED
+    private String status;
 
     private Integer progressPercent;
 
@@ -34,7 +36,7 @@ public class ProgressModel {
     private BigDecimal score;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.lastAccessedAt = LocalDateTime.now();
     }
 }

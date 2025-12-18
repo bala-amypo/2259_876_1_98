@@ -1,17 +1,19 @@
 package com.example.demo.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class RecommendationModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "recommendations")
+public class Recommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +21,20 @@ public class RecommendationModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserModel user;
+    private User user;
 
     private LocalDateTime generatedAt;
 
+    @Column(length = 1000)
     private String recommendedLessonIds;
 
+    @Column(length = 2000)
     private String basisSnapshot;
 
     private BigDecimal confidenceScore;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.generatedAt = LocalDateTime.now();
     }
 }
