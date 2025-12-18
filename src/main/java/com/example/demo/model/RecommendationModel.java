@@ -1,10 +1,9 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Builder
@@ -20,7 +19,7 @@ public class RecommendationModel {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    private UserModel user;
 
     private LocalDateTime generatedAt;
 
@@ -31,7 +30,7 @@ public class RecommendationModel {
     private BigDecimal confidenceScore;
 
     @PrePersist
-    public void onGenerate() {
+    public void prePersist() {
         this.generatedAt = LocalDateTime.now();
     }
 }

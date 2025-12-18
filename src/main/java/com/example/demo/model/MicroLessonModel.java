@@ -1,9 +1,8 @@
 package com.example.demo.model;
 
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -19,15 +18,15 @@ public class MicroLessonModel {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    private CourseModel course;
 
     private String title;
 
     private Integer durationMinutes;
 
-    private String contentType; 
+    private String contentType;
 
-    private String difficulty; 
+    private String difficulty;
 
     private String tags;
 

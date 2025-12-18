@@ -1,9 +1,8 @@
 package com.example.demo.model;
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -22,17 +21,16 @@ public class UserModel {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    private String role; 
+    private String role; // LEARNER / INSTRUCTOR / ADMIN
 
     private String preferredLearningStyle;
 
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
         if (this.role == null) {
             this.role = "LEARNER";
