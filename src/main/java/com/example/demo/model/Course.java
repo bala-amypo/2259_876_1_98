@@ -1,16 +1,19 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class CourseModel {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "courses")
+public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,15 +26,17 @@ public class CourseModel {
 
     @ManyToOne
     @JoinColumn(name = "instructor_id", nullable = false)
-    private UserModel instructor;
+    private User instructor;
 
-    @Column(nullable = false)
     private String category;
 
     private LocalDateTime createdAt;
 
+    @OneToMany(mappedBy = "course")
+    private List<MicroLesson> lessons;
+
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
 }
