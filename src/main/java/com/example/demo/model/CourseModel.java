@@ -19,6 +19,7 @@ public class CourseModel {
     @JoinColumn(name="instructor_id",nullable=false)
     private UserModel instructor;
 
+    @Column(nullable=false)
     private String category;
     private LocalDateTime createdAt;
     @PrePersist
