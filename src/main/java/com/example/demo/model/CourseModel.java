@@ -2,10 +2,7 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class CourseModel {
@@ -53,7 +50,7 @@ public class CourseModel {
         return category;
     }
     public void setCategory(String category) {
-        Category = category;
+        this.category = category;
     }
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -67,7 +64,7 @@ public class CourseModel {
         this.title = title;
         this.description = description;
         this.instructor = instructor;
-        Category = category;
+        this.category = category;
         this.createdAt = createdAt;
     }
     public CourseModel() {
