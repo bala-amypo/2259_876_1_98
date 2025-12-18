@@ -30,7 +30,6 @@ public class MicroLessonModel {
 
     private LocalDate publishDate;
 
-    // JPA needs this
     public MicroLessonModel() {}
 
     public MicroLessonModel(
