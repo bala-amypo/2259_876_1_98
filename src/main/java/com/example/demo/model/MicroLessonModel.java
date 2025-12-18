@@ -12,7 +12,7 @@ public class MicroLessonModel {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
+    private CourseModel course;
 
     @Column(nullable = false)
     private String title;
@@ -30,9 +30,18 @@ public class MicroLessonModel {
 
     private LocalDate publishDate;
 
+    // JPA needs this
     public MicroLessonModel() {}
 
-    public MicroLessonModel(Course course, String title, Integer durationMinutes,ContentType contentType, Difficulty difficulty,String tags, LocalDate publishDate) {
+    public MicroLessonModel(
+            CourseModel course,
+            String title,
+            Integer durationMinutes,
+            String contentType,
+            String difficulty,
+            String tags,
+            LocalDate publishDate
+    ) {
         this.course = course;
         this.title = title;
         this.durationMinutes = durationMinutes;
@@ -46,11 +55,11 @@ public class MicroLessonModel {
         return id;
     }
 
-    public Course getCourse() {
+    public CourseModel getCourse() {
         return course;
     }
 
-    public void setCourse(Course course) {
+    public void setCourse(CourseModel course) {
         this.course = course;
     }
 
@@ -69,25 +78,25 @@ public class MicroLessonModel {
     public void setDurationMinutes(Integer durationMinutes) {
         if (durationMinutes == null || durationMinutes <= 0 || durationMinutes > 15) {
             throw new IllegalArgumentException(
-                "Duration must be between 1 and 15 minutes"
+                    "Duration must be between 1 and 15 minutes"
             );
         }
         this.durationMinutes = durationMinutes;
     }
 
-    public ContentType getContentType() {
+    public String getContentType() {
         return contentType;
     }
 
-    public void setContentType(ContentType contentType) {
+    public void setContentType(String contentType) {
         this.contentType = contentType;
     }
 
-    public Difficulty getDifficulty() {
+    public String getDifficulty() {
         return difficulty;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
+    public void setDifficulty(String difficulty) {
         this.difficulty = difficulty;
     }
 
