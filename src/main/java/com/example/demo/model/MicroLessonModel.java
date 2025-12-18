@@ -32,12 +32,20 @@ public class MicroLesson {
 
     private LocalDate publishDate;
 
-    public Long getId() {
-        return id;
+    public MicroLesson() {}
+
+    public MicroLesson(Course course, String title, Integer durationMinutes,ContentType contentType, Difficulty difficulty,String tags, LocalDate publishDate) {
+        this.course = course;
+        this.title = title;
+        this.durationMinutes = durationMinutes;
+        this.contentType = contentType;
+        this.difficulty = difficulty;
+        this.tags = tags;
+        this.publishDate = publishDate;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public Course getCourse() {
@@ -61,6 +69,11 @@ public class MicroLesson {
     }
 
     public void setDurationMinutes(Integer durationMinutes) {
+        if (durationMinutes == null || durationMinutes <= 0 || durationMinutes > 15) {
+            throw new IllegalArgumentException(
+                "Duration must be between 1 and 15 minutes"
+            );
+        }
         this.durationMinutes = durationMinutes;
     }
 
@@ -93,20 +106,6 @@ public class MicroLesson {
     }
 
     public void setPublishDate(LocalDate publishDate) {
-        this.publishDate = publishDate;
-    }
-    public MicroLesson() {
-    }
-
-    public MicroLesson(Course course, String title, Integer durationMinutes,
-                       ContentType contentType, Difficulty difficulty,
-                       String tags, LocalDate publishDate) {
-        this.course = course;
-        this.title = title;
-        this.durationMinutes = durationMinutes;
-        this.contentType = contentType;
-        this.difficulty = difficulty;
-        this.tags = tags;
         this.publishDate = publishDate;
     }
 }
