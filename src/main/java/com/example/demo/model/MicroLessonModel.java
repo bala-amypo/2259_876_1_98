@@ -29,6 +29,10 @@ public class MicroLessonModel {
     private String tags;
 
     private LocalDate publishDate;
+    @PrePersist
+    public void prePersist() {
+        this.publishDate = LocalDateTime.now();
+    }
 
     public MicroLessonModel() {}
 
