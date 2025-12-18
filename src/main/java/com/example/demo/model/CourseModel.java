@@ -24,8 +24,7 @@ public class CourseModel {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
     }
-    private String Category;
-    private LocalDateTime createdAt;
+    
     public Long getId() {
         return id;
     }
@@ -51,7 +50,7 @@ public class CourseModel {
         this.instructor = instructor;
     }
     public String getCategory() {
-        return Category;
+        return category;
     }
     public void setCategory(String category) {
         Category = category;
