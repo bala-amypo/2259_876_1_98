@@ -23,7 +23,7 @@ public class UserModel {
 
     private String password;
 
-    private String role; // LEARNER / INSTRUCTOR / ADMIN
+    private String role; 
 
     private String preferredLearningStyle;
 
