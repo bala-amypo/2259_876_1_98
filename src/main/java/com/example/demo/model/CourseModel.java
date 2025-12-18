@@ -10,15 +10,15 @@ public class CourseModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    
+    @Column(nullable=false)    
     private String title;
 
     private String description;
 
     @ManyToOne
-    @JoinColumn(name="instructor_id")
+    @JoinColumn(name="instructor_id",nullable=false)
     private UserModel instructor;
-    
+
     private String category;
     private LocalDateTime createdAt;
     @PrePersist
