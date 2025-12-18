@@ -11,6 +11,8 @@ public class ProgressModel {
     @ManyToOne
     @JoinColumn(name="user_id",nullable=false)
     private UserModel user;
+    @ManyToOne
+    @JoinColumn(name="microlesson_id",nullable=false)
     private MicroLesson microLesson;
     private String status;
     private int progressPercent;
