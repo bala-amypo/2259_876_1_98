@@ -1,10 +1,10 @@
-package com.example.demon.service.implement;
+package com.example.demo.service.implement;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demon.model.User;
-import com.example.demon.repository.UserRepository;
-import com.example.demon.service.UserService;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
