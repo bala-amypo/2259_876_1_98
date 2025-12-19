@@ -7,10 +7,17 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImplement implements UserService{
     private UserRepository userRepository;
+    public UserServiceImplement(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
     @Override
     public User register(User user){
+        return userRepository.save(user);
+    }
+    @Override
+    public User login(User user){
         return userRepository.save(user);
     }
 }
