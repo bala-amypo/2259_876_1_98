@@ -10,7 +10,7 @@ import java.util.List;
 @RequestMapping("/lessons")
 public class LessonController {
 
-    private final LessonService lessonService;
+    private LessonService lessonService;
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
