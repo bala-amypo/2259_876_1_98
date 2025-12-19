@@ -1,14 +1,13 @@
 package com.example.demo.repository;
 
-import java.util.List;
+import java.util.*;
+import java.time.LocalDateTime;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.*;
 
-import com.example.demo.entity.Course;
-
+@Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-
     boolean existsByTitleAndInstructorId(String title, Long instructorId);
-
     List<Course> findByInstructorId(Long instructorId);
 }
