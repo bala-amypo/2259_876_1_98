@@ -7,7 +7,10 @@ import com.example.demo.service.CourseService;
 
 @Service
 public class CourseServiceImpl implements CourseService {
-
+    private CourseRepository courseRepository;
+    public CourseServiceImpl(CourseRepository courseRepository){
+        this.courseRepository=courseRepository;
+    }
     @Override
     public Course create(Course course){
         return courseRepository.save(course);
