@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Course;
-import com.example.demo.model.User;
+
 import com.example.demo.repository.CourseRepository;
-import com.example.demo.repository.UserRepository;
+
 import com.example.demo.service.CourseService;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
+  
 
     @Override
     public Course createCourse(Course course, Long instructorId) {
