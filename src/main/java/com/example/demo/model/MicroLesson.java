@@ -35,6 +35,4 @@ public class MicroLesson {
 
     private LocalDate publishDate;
 
-    @OneToMany(mappedBy = "microLesson")
-    private List<Progress> progressList;
 }

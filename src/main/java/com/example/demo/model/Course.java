@@ -32,8 +32,6 @@ public class Course {
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "course")
-    private List<MicroLesson> lessons;
 
     @PrePersist
     public void onCreate() {

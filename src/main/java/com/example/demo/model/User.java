@@ -33,15 +33,6 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "instructor")
-    private List<Course> courses;
-
-    @OneToMany(mappedBy = "user")
-    private List<Progress> progressList;
-
-    @OneToMany(mappedBy = "user")
-    private List<Recommendation> recommendations;
-
     @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
