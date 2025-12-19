@@ -38,18 +38,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AuthResponse login(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+public AuthResponse login(String email, String password) {
 
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String token = jwtUtil.generateToken(user.getEmail(), user.getRole(), user.getId());
-
-        return new AuthResponse(token, user.getId(), user.getEmail(), user.getRole());
+    if (!passwordEncoder.matches(password, user.getPassword())) {
+        throw new RuntimeException("Invalid credentials");
     }
+
+    Map<String, Object> claims = new HashMap<>();
+    claims.put("userId", user.getId());
+    claims.put("role", user.getRole());
+
+    String token = jwtUtil.generateToken(claims, user.getEmail());
+
+    return new AuthResponse(
+            token,
+            user.getId(),
+            user.getEmail(),
+            user.getRole()
+    );
+}
 
     @Override
     public User findById(Long id) {
