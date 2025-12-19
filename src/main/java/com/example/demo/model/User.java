@@ -1,40 +1,49 @@
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-import lombok.*;
+package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Table(name = "users")
+@Data
+@Builder
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
+    @Size(max = 100)
     private String fullName;
 
+    @Email
+    @NotBlank
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     private String password;
 
+    @NotBlank
     private String role;
 
+    @Size(max = 50)
     private String preferredLearningStyle;
 
     private LocalDateTime createdAt;
 
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = "LEARNER";
+        }
     }
 }
