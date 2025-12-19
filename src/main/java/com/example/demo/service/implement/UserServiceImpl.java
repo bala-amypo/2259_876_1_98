@@ -7,9 +7,9 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 @Service
-public class UserServiceImplement implements UserService{
+public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
-    public UserServiceImplement(UserRepository userRepository){
+    public UserServiceImpl(UserRepository userRepository){
         this.userRepository = userRepository;
     }
     @Override
