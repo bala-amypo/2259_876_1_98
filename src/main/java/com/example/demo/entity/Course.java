@@ -1,17 +1,16 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Course {
 
     @Id
@@ -23,17 +22,13 @@ public class Course {
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "instructor_id", nullable = false)
-    private User instructor;
-
+    // 🔥 IMPORTANT: store instructorId directly
     @Column(nullable = false)
+    private Long instructorId;
+
     private String category;
 
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MicroLesson> microLessons;
 
     @PrePersist
     public void prePersist() {
