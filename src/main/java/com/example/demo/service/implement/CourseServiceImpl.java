@@ -25,18 +25,14 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course createCourse(Course course, Long instructorId) {
 
-        User instructor = userRepository.findById(instructorId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Instructor not found"));
+        User instructor = userRepository.findById(instructorId).orElseThrow(() ->new ResourceNotFoundException("Instructor not found"));
 
-        if (!instructor.getRole().equals("INSTRUCTOR")
-                && !instructor.getRole().equals("ADMIN")) {
+        if (!instructor.getRole().equals("INSTRUCTOR") && !instructor.getRole().equals("ADMIN")) {
             throw new RuntimeException("User is not allowed to create courses");
         }
 
         if (courseRepository.existsByTitleAndInstructorId(course.getTitle(), instructorId)) {
-            throw new RuntimeException(
-                    "Course with this title already exists for this instructor");
+            throw new RuntimeException("Course with this title already exists for this instructor");
         }
 
         course.setInstructor(instructor);
@@ -45,10 +41,7 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course updateCourse(Long courseId, Course course) {
-
-        Course existingCourse = courseRepository.findById(courseId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Course not found"));
+        Course existingCourse = courseRepository.findById(courseId).orElseThrow(() ->new ResourceNotFoundException("Course not found"));
 
         existingCourse.setTitle(course.getTitle());
         existingCourse.setDescription(course.getDescription());
@@ -64,8 +57,6 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course getCourse(Long courseId) {
-        return courseRepository.findById(courseId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Course not found"));
+        return courseRepository.findById(courseId).orElseThrow(() ->new ResourceNotFoundException("Course not found"));
     }
 }
