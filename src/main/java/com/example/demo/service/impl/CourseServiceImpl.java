@@ -19,15 +19,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
   
 
-    @Override
-    public Course createCourse(Course course, Long instructorId) {
-
-        User instructor = userRepository.findById(instructorId)
-                .orElseThrow(() -> new RuntimeException("Instructor not found"));
-
-        course.setInstructor(instructor);
-        return courseRepository.save(course);
-    }
+   
 
     @Override
     public Course updateCourse(Long courseId, Course course) {
@@ -42,14 +34,7 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(existingCourse);
     }
 
-    @Override
-    public List<Course> listCoursesByInstructor(Long instructorId) {
-
-        User instructor = userRepository.findById(instructorId)
-                .orElseThrow(() -> new RuntimeException("Instructor not found"));
-
-        return courseRepository.findByInstructor(instructor);
-    }
+    
 
     @Override
     public Course getCourse(Long courseId) {
