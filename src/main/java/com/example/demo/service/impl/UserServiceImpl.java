@@ -8,6 +8,8 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
+import java.util.HashMap;
+import java.util.Map;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,28 +40,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-public AuthResponse login(String email, String password) {
+    public AuthResponse login(String email, String password) {
 
-    User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-    if (!passwordEncoder.matches(password, user.getPassword())) {
-        throw new RuntimeException("Invalid credentials");
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("role", user.getRole());
+
+        String token = jwtUtil.generateToken(claims, user.getEmail());
+
+        return new AuthResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
-
-    Map<String, Object> claims = new HashMap<>();
-    claims.put("userId", user.getId());
-    claims.put("role", user.getRole());
-
-    String token = jwtUtil.generateToken(claims, user.getEmail());
-
-    return new AuthResponse(
-            token,
-            user.getId(),
-            user.getEmail(),
-            user.getRole()
-    );
-}
 
     @Override
     public User findById(Long id) {
