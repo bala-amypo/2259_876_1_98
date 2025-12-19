@@ -5,7 +5,7 @@ import com.example.demo.model.Course;
 
 public interface CourseService {
 
-    Course createCourse(Course course, Long instructorId);
+    Course createCourse(Course course);
 
     Course updateCourse(Long courseId, Course course);
 

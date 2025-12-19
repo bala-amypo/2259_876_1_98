@@ -16,12 +16,11 @@ public class CourseController {
 
     private final CourseService courseService;
 
-    @PostMapping("/{instructorId}")
+    @PostMapping("/courses")
     public Course createCourse(
-            @RequestBody Course course,
-            @PathVariable Long instructorId) {
+            @RequestBody Course course) {
 
-        return courseService.createCourse(course, instructorId);
+        return courseService.createCourse(course);
     }
 
     @PutMapping("/{courseId}")

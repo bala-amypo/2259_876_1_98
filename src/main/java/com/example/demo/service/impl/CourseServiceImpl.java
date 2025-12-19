@@ -17,8 +17,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
 
     @Override
-    public Course createCourse(Course course, Long instructorId) {
-        course.setInstructorId(instructorId);
+    public Course createCourse(Course course) {
+        
         return courseRepository.save(course);
     }
 
