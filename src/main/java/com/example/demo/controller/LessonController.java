@@ -11,21 +11,17 @@ import java.util.List;
 public class LessonController {
 
     private final LessonService lessonService;
-
     public LessonController(LessonService lessonService) {
         this.lessonService = lessonService;
     }
 
-    @PostMapping("/course/{courseId}")
+    @PostMapping("/course/{id}")
     public MicroLesson addLesson(@PathVariable Long id,@RequestBody MicroLesson lesson) {
         return lessonService.addLesson(id, lesson);
     }
 
     @PutMapping("/{lessonId}")
-    public MicroLesson updateLesson(
-            @PathVariable Long lessonId,
-            @RequestBody MicroLesson lesson
-    ) {
+    public MicroLesson updateLesson(@PathVariable Long lessonId,@RequestBody MicroLesson lesson) {
         return lessonService.updateLesson(lessonId, lesson);
     }
 
