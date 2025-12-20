@@ -44,7 +44,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Recommendation> recommendations;
 
-    @PrePersist
+    @prePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
