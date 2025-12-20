@@ -10,7 +10,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ProgressService;
 import org.springframework.stereotype.Service;
 
-import java.math.int;
 import java.util.List;
 
 @Service
@@ -41,14 +40,12 @@ public class ProgressServiceImpl implements ProgressService {
 
         int percent = progress.getProgressPercent();
 
-        // ✅ int-safe validation
-        if (percent.compareTo(int.ZERO) < 0 ||
-            percent.compareTo(int.valueOf(100)) > 0) {
+        // validation
+        if (percent < 0 || percent > 100) {
             throw new IllegalArgumentException("Progress percent must be between 0 and 100");
         }
 
-        if ("COMPLETED".equals(progress.getStatus()) &&
-            percent.compareTo(int.valueOf(100)) != 0) {
+        if ("COMPLETED".equals(progress.getStatus()) && percent != 100) {
             throw new IllegalArgumentException("Completed requires 100%");
         }
 
@@ -65,7 +62,6 @@ public class ProgressServiceImpl implements ProgressService {
         existing.setStatus(progress.getStatus());
         existing.setProgressPercent(progress.getProgressPercent());
         existing.setScore(progress.getScore());
-
 
         return progressRepository.save(existing);
     }
