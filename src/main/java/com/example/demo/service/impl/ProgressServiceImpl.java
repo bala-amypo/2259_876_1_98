@@ -10,6 +10,7 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ProgressService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,15 +39,16 @@ public class ProgressServiceImpl implements ProgressService {
         MicroLesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
-        int percent = progress.getProgressPercent();
+        BigDecimal percent = progress.getProgressPercent();
 
-        // validation
-        if (percent < 0 || percent > 100) {
+        if (percent.compareTo(BigDecimal.ZERO) < 0 ||
+            percent.compareTo(BigDecimal.valueOf(100)) > 0) {
             throw new IllegalArgumentException("Progress percent must be between 0 and 100");
         }
 
-        if ("COMPLETED".equals(progress.getStatus()) && percent != 100) {
-            throw new IllegalArgumentException("Completed requires 100%");
+        if ("COMPLETED".equalsIgnoreCase(progress.getStatus()) &&
+            percent.compareTo(BigDecimal.valueOf(100)) != 0) {
+            throw new IllegalArgumentException("Completed progress must be 100%");
         }
 
         Progress existing = progressRepository
