@@ -10,7 +10,6 @@ import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ProgressService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -20,9 +19,11 @@ public class ProgressServiceImpl implements ProgressService {
     private final UserRepository userRepository;
     private final MicroLessonRepository lessonRepository;
 
-    public ProgressServiceImpl(ProgressRepository progressRepository,
-                               UserRepository userRepository,
-                               MicroLessonRepository lessonRepository) {
+    public ProgressServiceImpl(
+            ProgressRepository progressRepository,
+            UserRepository userRepository,
+            MicroLessonRepository lessonRepository
+    ) {
         this.progressRepository = progressRepository;
         this.userRepository = userRepository;
         this.lessonRepository = lessonRepository;
@@ -37,17 +38,15 @@ public class ProgressServiceImpl implements ProgressService {
         MicroLesson lesson = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
-        // ✅ BigDecimal validation
-        if (progress.getProgressPercent() == null ||
-            progress.getProgressPercent().compareTo(BigDecimal.ZERO) < 0 ||
-            progress.getProgressPercent().compareTo(BigDecimal.valueOf(100)) > 0) {
-            throw new IllegalArgumentException("Invalid progress percent");
+        int percent = progress.getProgressPercent();
+
+        // ✅ int-safe validation
+        if (percent < 0 || percent > 100) {
+            throw new IllegalArgumentException("Progress percent must be between 0 and 100");
         }
 
-        // ✅ COMPLETED must be exactly 100
-        if ("COMPLETED".equals(progress.getStatus()) &&
-            progress.getProgressPercent().compareTo(BigDecimal.valueOf(100)) != 0) {
-            throw new IllegalArgumentException("Completed must be 100%");
+        if ("COMPLETED".equals(progress.getStatus()) && percent != 100) {
+            throw new IllegalArgumentException("Completed status requires 100% progress");
         }
 
         Progress existing = progressRepository
@@ -61,7 +60,7 @@ public class ProgressServiceImpl implements ProgressService {
         }
 
         existing.setStatus(progress.getStatus());
-        existing.setProgressPercent(progress.getProgressPercent());
+        existing.setProgressPercent(percent);
         existing.setScore(progress.getScore());
 
         return progressRepository.save(existing);
