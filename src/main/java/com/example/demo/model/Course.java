@@ -36,7 +36,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<MicroLesson> lessons;
 
-    @PrePersist
+    @prePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
