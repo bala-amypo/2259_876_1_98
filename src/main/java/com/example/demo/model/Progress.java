@@ -26,12 +26,24 @@ public class Progress {
 
     private String status;
 
-    // 🔹 MUST be BigDecimal (tests expect this)
+    // ✅ Stored as BigDecimal
     private BigDecimal progressPercent;
 
     private LocalDateTime lastAccessedAt;
 
     private BigDecimal score;
+
+    /* ---------- OVERLOADED SETTERS (THIS IS THE KEY) ---------- */
+
+    public void setProgressPercent(int value) {
+        this.progressPercent = BigDecimal.valueOf(value);
+    }
+
+    public void setScore(int value) {
+        this.score = BigDecimal.valueOf(value);
+    }
+
+    /* ---------------------------------------------------------- */
 
     @PrePersist
     public void prePersist() {
