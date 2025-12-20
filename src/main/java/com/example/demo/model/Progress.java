@@ -2,13 +2,10 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.PrePersist;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "progress")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,24 +18,21 @@ public class Progress {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "micro_lesson_id", nullable = false)
     private MicroLesson microLesson;
 
-    // NOT_STARTED, IN_PROGRESS, COMPLETED
     private String status;
 
-    private Integer progressPercent;
+    private int progressPercent;
 
     private LocalDateTime lastAccessedAt;
 
-    private BigDecimal score;
+    private int score;
 
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.lastAccessedAt = LocalDateTime.now();
     }
 }

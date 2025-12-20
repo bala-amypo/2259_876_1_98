@@ -2,13 +2,11 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import jakarta.persistence.PrePersist;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,30 +20,31 @@ public class User {
 
     private String fullName;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
-    // LEARNER, INSTRUCTOR, ADMIN
     private String role;
 
     private String preferredLearningStyle;
 
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
     private List<Course> courses;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Progress> progressList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Recommendation> recommendations;
 
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = "LEARNER";
+        }
     }
 }
