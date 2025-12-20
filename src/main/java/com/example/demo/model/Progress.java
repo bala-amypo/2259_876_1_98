@@ -25,11 +25,11 @@ public class Progress {
 
     private String status;
 
-    private int progressPercent;
+    private BigDecimal progressPercent;
+    private BigDecimal score;
 
     private LocalDateTime lastAccessedAt;
 
-    private int score;
 
     @PrePersist
     public void prePersist() {
