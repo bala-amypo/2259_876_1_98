@@ -1,41 +1,19 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.Recommendation;
-import com.example.demo.model.User;
-import com.example.demo.repository.RecommendationRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.RecommendationService;
-import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@Service
-public class RecommendationServiceImpl implements RecommendationService {
+public interface RecommendationService {
 
-    private final RecommendationRepository recommendationRepository;
-    private final UserRepository userRepository;
+    Recommendation generateRecommendation(Long userId, Object request);
 
-    // ✅ EXACT constructor the test expects
-    public RecommendationServiceImpl(
-            RecommendationRepository recommendationRepository,
-            UserRepository userRepository
-    ) {
-        this.recommendationRepository = recommendationRepository;
-        this.userRepository = userRepository;
-    }
+    Recommendation getLatestRecommendation(Long userId);
 
-    @Override
-    public Recommendation generateRecommendation(Long userId, Object request) {
-        User user = userRepository.findById(userId).orElseThrow();
-        Recommendation r = new Recommendation();
-        r.setUser(user);
-        return recommendationRepository.save(r);
-    }
-
-    @Override
-    public Recommendation getLatestRecommendation(Long userId) {
-        List<Recommendation> list =
-                recommendationRepository.findByUserIdOrderByGeneratedAtDesc(userId);
-        return list.isEmpty() ? null : list.get(0);
-    }
+    List<Recommendation> getRecommendations(
+            Long userId,
+            LocalDate from,
+            LocalDate to
+    );
 }
