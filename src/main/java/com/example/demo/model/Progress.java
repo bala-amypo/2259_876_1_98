@@ -3,14 +3,14 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Progress {
 
     @Id
@@ -18,20 +18,20 @@ public class Progress {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
+    @JoinColumn(name = "lesson_id")
     private MicroLesson microLesson;
 
-    private String status;
+    private String status; // NOT_STARTED, IN_PROGRESS, COMPLETED
 
-    @Column(precision = 5, scale = 2)
-    private BigDecimal progressPercent;
-
-    @Column(precision = 5, scale = 2)
-    private BigDecimal score;
+    private int progressPercent;   // ✅ CHANGED FROM BigDecimal → int
 
     private LocalDateTime lastAccessedAt;
+
+    private int score;              // ✅ CHANGED FROM BigDecimal → int
 
     @PrePersist
     public void prePersist() {
