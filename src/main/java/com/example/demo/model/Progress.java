@@ -37,7 +37,7 @@ public class Progress {
 
     private BigDecimal score;
 
-    @prePersist
+    @PrePersist
     public void onCreate() {
         this.lastAccessedAt = LocalDateTime.now();
     }

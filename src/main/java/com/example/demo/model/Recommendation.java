@@ -34,7 +34,7 @@ public class Recommendation {
 
     private BigDecimal confidenceScore;
 
-    @prePersist
+    @PrePersist
     public void onCreate() {
         this.generatedAt = LocalDateTime.now();
     }
