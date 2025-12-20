@@ -7,11 +7,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Progress {
 
     @Id
@@ -26,24 +25,13 @@ public class Progress {
 
     private String status;
 
-    // ✅ Stored as BigDecimal
+    @Column(precision = 5, scale = 2)
     private BigDecimal progressPercent;
 
-    private LocalDateTime lastAccessedAt;
-
+    @Column(precision = 5, scale = 2)
     private BigDecimal score;
 
-    /* ---------- OVERLOADED SETTERS (THIS IS THE KEY) ---------- */
-
-    public void setProgressPercent(int value) {
-        this.progressPercent = BigDecimal.valueOf(value);
-    }
-
-    public void setScore(int value) {
-        this.score = BigDecimal.valueOf(value);
-    }
-
-    /* ---------------------------------------------------------- */
+    private LocalDateTime lastAccessedAt;
 
     @PrePersist
     public void prePersist() {
