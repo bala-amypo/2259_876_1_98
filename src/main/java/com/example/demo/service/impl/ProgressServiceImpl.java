@@ -63,8 +63,9 @@ public class ProgressServiceImpl implements ProgressService {
         }
 
         existing.setStatus(progress.getStatus());
-        existing.setProgressPercent(progress.getProgressPercent());
-        existing.setScore(progress.getScore());
+        existing.setProgressPercent(progress.getProgressPercent().intValue());
+        existing.setScore(progress.getScore().intValue());
+
 
         return progressRepository.save(existing);
     }
