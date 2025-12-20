@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.Recommendation;
 import com.example.demo.model.User;
+import com.example.demo.repository.MicroLessonRepository;
 import com.example.demo.repository.RecommendationRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RecommendationService;
@@ -15,22 +16,25 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     private final RecommendationRepository recommendationRepository;
     private final UserRepository userRepository;
+    private final MicroLessonRepository microLessonRepository; // REQUIRED by test
 
-    // ✅ EXACT constructor required by test
+    // ✅ EXACT constructor expected by test
     public RecommendationServiceImpl(
             RecommendationRepository recommendationRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            MicroLessonRepository microLessonRepository
     ) {
         this.recommendationRepository = recommendationRepository;
         this.userRepository = userRepository;
+        this.microLessonRepository = microLessonRepository;
     }
 
     @Override
     public Recommendation generateRecommendation(Long userId, Object request) {
         User user = userRepository.findById(userId).orElseThrow();
-        Recommendation recommendation = new Recommendation();
-        recommendation.setUser(user);
-        return recommendationRepository.save(recommendation);
+        Recommendation r = new Recommendation();
+        r.setUser(user);
+        return recommendationRepository.save(r);
     }
 
     @Override
@@ -40,7 +44,6 @@ public class RecommendationServiceImpl implements RecommendationService {
         return list.isEmpty() ? null : list.get(0);
     }
 
-    // ✅ THIS METHOD WAS MISSING (CAUSE OF ERROR)
     @Override
     public List<Recommendation> getRecommendations(
             Long userId,
