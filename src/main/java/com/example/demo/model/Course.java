@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.PrePersist;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,7 +36,7 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<MicroLesson> lessons;
 
-    @prePersist
+    @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }

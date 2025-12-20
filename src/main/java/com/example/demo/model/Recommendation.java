@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.PrePersist;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -33,7 +34,7 @@ public class Recommendation {
 
     private BigDecimal confidenceScore;
 
-    @prePersist
+    @PrePersist
     public void onCreate() {
         this.generatedAt = LocalDateTime.now();
     }

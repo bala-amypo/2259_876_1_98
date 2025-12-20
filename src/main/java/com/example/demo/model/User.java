@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import jakarta.persistence.PrePersist;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,7 +44,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Recommendation> recommendations;
 
-    @prePersist
+    @PrePersist
     public void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
