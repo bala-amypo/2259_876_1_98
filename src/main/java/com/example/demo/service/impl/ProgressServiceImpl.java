@@ -16,32 +16,24 @@ import java.util.List;
 public class ProgressServiceImpl implements ProgressService {
 
     private final ProgressRepository progressRepository;
-    private final MicroLessonRepository lessonRepository;
 
-    public ProgressServiceImpl(ProgressRepository progressRepository,
-                               MicroLessonRepository lessonRepository) {
+    public ProgressServiceImpl(ProgressRepository progressRepository) {
         this.progressRepository = progressRepository;
-        this.lessonRepository = lessonRepository;
     }
 
     @Override
-    public Progress recordProgress(Long lessonId, Progress progress) {
-
-        MicroLesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> new RuntimeException("Lesson not found"));
-
-        progress.setMicroLesson(lesson);
+    public Progress create(Progress progress) {
         return progressRepository.save(progress);
     }
 
     @Override
-    public Progress getProgress(Long progressId) {
-        return progressRepository.findById(progressId)
+    public Progress get(Long id) {
+        return progressRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Progress not found"));
     }
 
     @Override
-    public List<Progress> getAllProgress() {
+    public List<Progress> getAll() {
         return progressRepository.findAll();
     }
 }

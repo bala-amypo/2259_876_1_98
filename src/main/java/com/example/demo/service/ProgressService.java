@@ -1,8 +1,13 @@
+package com.example.demo.service;
+
+import com.example.demo.model.Progress;
+import java.util.List;
+
 public interface ProgressService {
 
-    Progress recordProgress(Long lessonId, Progress progress);
+    Progress create(Progress progress);
 
-    Progress getProgress(Long progressId);
+    Progress get(Long id);
 
-    List<Progress> getAllProgress();
+    List<Progress> getAll();
 }
