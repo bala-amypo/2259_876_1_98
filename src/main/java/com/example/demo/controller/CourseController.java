@@ -16,7 +16,6 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    // CREATE
     @PostMapping
     public Course createCourse(
             @RequestParam Long instructorId,
@@ -25,13 +24,11 @@ public class CourseController {
         return courseService.createCourse(instructorId, course);
     }
 
-    // READ by ID
     @GetMapping("/{courseId}")
     public Course getCourse(@PathVariable Long courseId) {
         return courseService.getCourseById(courseId);
     }
 
-    // UPDATE
     @PutMapping("/{courseId}")
     public Course updateCourse(
             @PathVariable Long courseId,
@@ -40,7 +37,6 @@ public class CourseController {
         return courseService.updateCourse(courseId, course);
     }
 
-    // READ by Instructor
     @GetMapping("/instructor/{instructorId}")
     public List<Course> getByInstructor(@PathVariable Long instructorId) {
         return courseService.getCoursesByInstructor(instructorId);
