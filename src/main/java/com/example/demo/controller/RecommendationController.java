@@ -18,20 +18,12 @@ public class RecommendationController {
     }
 
     @PostMapping("/generate")
-    public Recommendation generate(@RequestParam Long userId,
-                                   @RequestBody RecommendationRequest request) {
-        return recommendationService.generateRecommendation(userId, request);
+    public Recommendation generate(@RequestBody RecommendationRequest request) {
+        return recommendationService.generateRecommendation(request);
     }
 
-    @GetMapping("/latest")
-    public Recommendation getLatest(@RequestParam Long userId) {
-        return recommendationService.getLatestRecommendation(userId);
-    }
-
-    @GetMapping("/user/{userId}")
-    public List<Recommendation> getUserRecommendations(@PathVariable Long userId,
-                                                       @RequestParam LocalDate from,
-                                                       @RequestParam LocalDate to) {
-        return recommendationService.getRecommendations(userId, from, to);
+    @GetMapping
+    public List<Recommendation> getAll() {
+        return recommendationService.getAllRecommendations();
     }
 }

@@ -18,45 +18,25 @@ import java.util.List;
 public class RecommendationServiceImpl implements RecommendationService {
 
     private final RecommendationRepository recommendationRepository;
-    private final UserRepository userRepository;
 
-    public RecommendationServiceImpl(RecommendationRepository recommendationRepository,
-                                     UserRepository userRepository) {
+    public RecommendationServiceImpl(RecommendationRepository recommendationRepository) {
         this.recommendationRepository = recommendationRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
-    public Recommendation generateRecommendation(Long userId, RecommendationRequest params) {
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public Recommendation generateRecommendation(RecommendationRequest request) {
 
         Recommendation recommendation = Recommendation.builder()
-                .user(user)
-                .recommendedLessonIds("1,2,3") // dummy
-                .basisSnapshot("dummy snapshot")
-                .confidenceScore(BigDecimal.valueOf(0.8))
+                .recommendedLessonIds("1,2,3")
+                .basisSnapshot("demo")
+                .confidenceScore(BigDecimal.valueOf(0.9))
                 .build();
 
         return recommendationRepository.save(recommendation);
     }
 
     @Override
-    public Recommendation getLatestRecommendation(Long userId) {
-
-        return recommendationRepository.findByUserIdOrderByGeneratedAtDesc(userId)
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("No recommendations found"));
-    }
-
-    @Override
-    public List<Recommendation> getRecommendations(Long userId, LocalDate from, LocalDate to) {
-
-        LocalDateTime start = from.atStartOfDay();
-        LocalDateTime end = to.atTime(23, 59, 59);
-
-        return recommendationRepository.findByUserIdAndGeneratedAtBetween(userId, start, end);
+    public List<Recommendation> getAllRecommendations() {
+        return recommendationRepository.findAll();
     }
 }

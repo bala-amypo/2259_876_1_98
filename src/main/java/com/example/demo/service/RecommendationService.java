@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface RecommendationService {
 
-    Recommendation generateRecommendation(Long userId, RecommendationRequest params);
+    Recommendation generateRecommendation(RecommendationRequest request);
 
-    Recommendation getLatestRecommendation(Long userId);
-
-    List<Recommendation> getRecommendations(Long userId, LocalDate from, LocalDate to);
+    List<Recommendation> getAllRecommendations();
 }
