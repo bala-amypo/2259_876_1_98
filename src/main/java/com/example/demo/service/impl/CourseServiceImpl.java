@@ -25,6 +25,10 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course createCourse(Course course, Long instructorId) {
 
+        if (course == null || course.getTitle() == null || course.getTitle().isBlank()) {
+            throw new IllegalArgumentException("Course title is required");
+        }
+
         User instructor = userRepository.findById(instructorId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
@@ -40,6 +44,7 @@ public class CourseServiceImpl implements CourseService {
         course.setInstructor(instructor);
         return courseRepository.save(course);
     }
+
 
     @Override
     public Course updateCourse(Long courseId, Course course) {
