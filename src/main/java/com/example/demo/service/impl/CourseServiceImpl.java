@@ -18,21 +18,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course createCourse(Long instructorId, Course course) {
-        course.setInstructorId(instructorId);
+    public Course createCourse(Course course) {
         return courseRepository.save(course);
     }
 
     @Override
-    public Course getCourseById(Long courseId) {
-        return courseRepository.findById(courseId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Course not found"));
-    }
-
-    @Override
-    public Course updateCourse(Long courseId, Course course) {
-        Course existing = getCourseById(courseId);
+    public Course updateCourse(Long id, Course course) {
+        Course existing = courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
         existing.setTitle(course.getTitle());
         existing.setDescription(course.getDescription());
@@ -42,7 +35,13 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public List<Course> getCoursesByInstructor(Long instructorId) {
-        return courseRepository.findByInstructorId(instructorId);
+    public Course getCourse(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        return courseRepository.findAll();
     }
 }
