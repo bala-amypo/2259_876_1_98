@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @PostMapping("/register")
-    public String register() {
-        return "dummy register";
+    public User register(@RequestBody User user) {
+        return userService.register(user);
     }
 
     @PostMapping("/login")
