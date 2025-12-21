@@ -19,23 +19,13 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "lesson_id", nullable = false)
     private MicroLesson microLesson;
 
-    @Column(nullable = false)
-    private String status;   // NOT_STARTED, IN_PROGRESS, COMPLETED
-
-    @Column(nullable = false)
-    private Integer progressPercent; // 0–100
-
+    private String status;
+    private Integer progressPercent;
     private BigDecimal score;
-
-    @Column(nullable = false)
     private LocalDateTime lastAccessedAt;
 
     @PrePersist

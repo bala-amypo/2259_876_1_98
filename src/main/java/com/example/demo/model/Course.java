@@ -22,20 +22,13 @@ public class Course {
     @Column(nullable = false)
     private String title;
 
-    @Column
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "instructor_id", nullable = false)
-    private User instructor;
-
-    @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<MicroLesson> lessons;
 
     @PrePersist
@@ -43,4 +36,5 @@ public class Course {
         this.createdAt = LocalDateTime.now();
     }
 }
+
 

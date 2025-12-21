@@ -7,8 +7,4 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProgressRepository extends JpaRepository<Progress, Long> {
-
-    Optional<Progress> findByUserIdAndMicroLessonId(Long userId, Long lessonId);
-
-    List<Progress> findByUserIdOrderByLastAccessedAtDesc(Long userId);
 }
