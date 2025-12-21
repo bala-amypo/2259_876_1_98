@@ -17,15 +17,14 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
 
     private String description;
 
-    @Column(nullable = false)
     private String category;
 
-    private Long instructorId;   // IMPORTANT: simple Long, not relation
+    // As per testcases – simple field
+    private Long instructorId;
 
     private LocalDateTime createdAt;
 
