@@ -1,69 +1,54 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
+    private final UserRepository repo;
 
-    public UserServiceImpl(UserRepository userRepository,
-                           BCryptPasswordEncoder passwordEncoder,
-                           JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
+    public UserServiceImpl(UserRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public User register(User user) {
+    public User createUser(User user) {
+        return repo.save(user);
+    }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
+    @Override
+    public List<User> getAllUsers() {
+        return repo.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
+
+    @Override
+    public User updateUser(Long id, User user) {
+        User existing = repo.findById(id).orElse(null);
+        if (existing == null) {
+            return null;
         }
 
-        if (user.getRole() == null) {
-            user.setRole("LEARNER");
-        }
+        existing.setFullName(user.getFullName());
+        existing.setEmail(user.getEmail());
+        existing.setPassword(user.getPassword());
+        existing.setRole(user.getRole());
+        existing.setPreferredLearningStyle(user.getPreferredLearningStyle());
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        return userRepository.save(user);
+        return repo.save(existing);
     }
 
     @Override
-    public AuthResponse login(String email, String password) {
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new IllegalArgumentException("Invalid credentials");
-        }
-
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
-
-        return new AuthResponse(token, user.getId(), user.getEmail(), user.getRole());
-    }
-
-    @Override
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    public void deleteUser(Long id) {
+        repo.deleteById(id);
     }
 }
