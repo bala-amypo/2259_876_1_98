@@ -23,48 +23,36 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course createCourse(Course course, Long instructorId) {
+    public Course createCourse(Long instructorId, Course course) {
+
         User instructor = userRepository.findById(instructorId)
-                .orElseThrow(() -> new ResourceNotFoundException("Instructor not found"));
-
-        if (!"INSTRUCTOR".equals(instructor.getRole()) && !"ADMIN".equals(instructor.getRole())) {
-            throw new IllegalArgumentException("User is not allowed to create courses");
-        }
-
-        if (course.getTitle() == null || course.getTitle().isBlank()) {
-            throw new IllegalArgumentException("Course title is mandatory");
-        }
-
-        if (courseRepository.existsByTitleAndInstructorId(course.getTitle(), instructorId)) {
-            throw new IllegalArgumentException("Course title already exists");
-        }
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         course.setInstructor(instructor);
         return courseRepository.save(course);
     }
 
     @Override
-    public Course updateCourse(Long courseId, Course course) {
-        Course existing = getCourse(courseId);
+    public Course updateCourse(Long courseId, Course updated) {
 
-        existing.setTitle(course.getTitle());
-        existing.setDescription(course.getDescription());
-        existing.setCategory(course.getCategory());
+        Course existing = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+
+        existing.setTitle(updated.getTitle());
+        existing.setDescription(updated.getDescription());
+        existing.setCategory(updated.getCategory());
 
         return courseRepository.save(existing);
     }
 
     @Override
-    public List<Course> listCoursesByInstructor(Long instructorId) {
-        return courseRepository.findAll()
-                .stream()
-                .filter(c -> c.getInstructor().getId().equals(instructorId))
-                .toList();
+    public Course getCourseById(Long courseId) {
+        return courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
     }
 
     @Override
-    public Course getCourse(Long courseId) {
-        return courseRepository.findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+    public List<Course> getCoursesByInstructor(Long instructorId) {
+        return courseRepository.findByInstructorId(instructorId);
     }
 }

@@ -18,10 +18,10 @@ public class CourseController {
 
     @PostMapping
     public Course createCourse(
-            @RequestBody Course course,
-            @RequestParam Long instructorId
+            @RequestParam Long instructorId,
+            @RequestBody Course course
     ) {
-        return courseService.createCourse(course, instructorId);
+        return courseService.createCourse(instructorId, course);
     }
 
     @PutMapping("/{courseId}")
@@ -32,13 +32,13 @@ public class CourseController {
         return courseService.updateCourse(courseId, course);
     }
 
-    @GetMapping("/instructor/{instructorId}")
-    public List<Course> listByInstructor(@PathVariable Long instructorId) {
-        return courseService.listCoursesByInstructor(instructorId);
-    }
-
     @GetMapping("/{courseId}")
     public Course getCourse(@PathVariable Long courseId) {
-        return courseService.getCourse(courseId);
+        return courseService.getCourseById(courseId);
+    }
+
+    @GetMapping("/instructor/{instructorId}")
+    public List<Course> getCoursesByInstructor(@PathVariable Long instructorId) {
+        return courseService.getCoursesByInstructor(instructorId);
     }
 }
