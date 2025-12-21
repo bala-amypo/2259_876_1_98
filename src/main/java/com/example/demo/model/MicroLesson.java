@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Table(name = "micro_lessons")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,16 +19,21 @@ public class MicroLesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
     @Column(nullable = false)
     private String title;
 
+    @Column(nullable = false)
     private Integer durationMinutes;
 
-    private String contentType;
-
-    private String difficulty;
-
-    private String tags;
+    private String contentType;   
+    private String difficulty;   
 
     private LocalDate publishDate;
+
+    @OneToMany(mappedBy = "microLesson", cascade = CascadeType.ALL)
+    private List<Progress> progressList;
 }
