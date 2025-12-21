@@ -4,10 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
-@Table(name = "micro_lessons")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,28 +17,13 @@ public class MicroLesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id", nullable = false)
-    private Course course;
-
-    @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
     private Integer durationMinutes;
-
-    @Column(nullable = false)
     private String contentType;
-
-    @Column(nullable = false)
     private String difficulty;
-
-    @Column
-    private String tags;   // ✅ REQUIRED by SRS
-
+    private String tags;
     private LocalDate publishDate;
 
-    @OneToMany(mappedBy = "microLesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Progress> progressList;
+    @ManyToOne
+    private Course course;
 }
-

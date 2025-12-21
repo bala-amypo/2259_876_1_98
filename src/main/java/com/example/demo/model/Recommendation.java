@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "recommendations")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,7 +24,7 @@ public class Recommendation {
     private LocalDateTime generatedAt;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.generatedAt = LocalDateTime.now();
     }
 }

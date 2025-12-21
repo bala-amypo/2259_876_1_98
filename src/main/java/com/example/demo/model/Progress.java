@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "progress")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,17 +18,13 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "lesson_id", nullable = false)
-    private MicroLesson microLesson;
-
     private String status;
     private Integer progressPercent;
     private BigDecimal score;
     private LocalDateTime lastAccessedAt;
 
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.lastAccessedAt = LocalDateTime.now();
     }
 }
