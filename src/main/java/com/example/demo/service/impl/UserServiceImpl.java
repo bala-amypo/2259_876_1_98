@@ -4,6 +4,9 @@ import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+
 
 @Service
 public class UserServiceImpl implements UserService {
