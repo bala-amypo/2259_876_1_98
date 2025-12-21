@@ -10,6 +10,5 @@ public interface CourseService {
     Course updateCourse(Long courseId, Course course);
 
     Course getCourse(Long courseId);
-
-    List<Course> listCourses();
 }
+

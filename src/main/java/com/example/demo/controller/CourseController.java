@@ -10,19 +10,25 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
 
-    private final CourseService service;
+    private final CourseService courseService;
 
-    public CourseController(CourseService service) {
-        this.service = service;
+    public CourseController(CourseService courseService) {
+        this.courseService = courseService;
     }
 
     @PostMapping
     public Course create(@RequestBody Course course) {
-        return service.createCourse(course);
+        return courseService.createCourse(course);
     }
 
-    @GetMapping
-    public List<Course> list() {
-        return service.listCourses();
+    @PutMapping("/{id}")
+    public Course update(@PathVariable Long id,
+                         @RequestBody Course course) {
+        return courseService.updateCourse(id, course);
+    }
+
+    @GetMapping("/{id}")
+    public Course get(@PathVariable Long id) {
+        return courseService.getCourse(id);
     }
 }

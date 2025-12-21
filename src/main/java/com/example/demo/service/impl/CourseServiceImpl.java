@@ -18,6 +18,11 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course createCourse(Course course) {
+
+        if (courseRepository.existsByTitle(course.getTitle())) {
+            throw new IllegalArgumentException("Course title already exists");
+        }
+
         return courseRepository.save(course);
     }
 
@@ -38,10 +43,5 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourse(Long courseId) {
         return courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
-    }
-
-    @Override
-    public List<Course> listCourses() {
-        return courseRepository.findAll();
     }
 }
