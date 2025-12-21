@@ -19,7 +19,7 @@ public class MicroLesson {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
@@ -29,11 +29,18 @@ public class MicroLesson {
     @Column(nullable = false)
     private Integer durationMinutes;
 
-    private String contentType;   
-    private String difficulty;   
+    @Column(nullable = false)
+    private String contentType;
+
+    @Column(nullable = false)
+    private String difficulty;
+
+    @Column
+    private String tags;   // ✅ REQUIRED by SRS
 
     private LocalDate publishDate;
 
-    @OneToMany(mappedBy = "microLesson", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "microLesson", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Progress> progressList;
 }
+
