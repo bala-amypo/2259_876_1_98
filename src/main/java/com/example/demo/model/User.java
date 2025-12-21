@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class User {
 
     private String fullName;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String password;
@@ -34,11 +35,14 @@ public class User {
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses;
 
+    @OneToMany(mappedBy = "user")
+    private List<Progress> progressList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Recommendation> recommendations;
+
     @PrePersist
-    public void prePersist() {
+    public void onCreate() {
         this.createdAt = LocalDateTime.now();
-        if (this.role == null) {
-            this.role = "LEARNER";
-        }
     }
 }
