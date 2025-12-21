@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CourseRequest;
 import com.example.demo.model.Course;
 import com.example.demo.service.CourseService;
 import org.springframework.web.bind.annotation.*;
@@ -19,22 +20,22 @@ public class CourseController {
     @PostMapping
     public Course createCourse(
             @RequestParam Long instructorId,
-            @RequestBody Course course
+            @RequestBody CourseRequest request
     ) {
-        return courseService.createCourse(instructorId, course);
+        return courseService.createCourse(instructorId, request);
     }
 
     @PutMapping("/{courseId}")
     public Course updateCourse(
             @PathVariable Long courseId,
-            @RequestBody Course course
+            @RequestBody CourseRequest request
     ) {
-        return courseService.updateCourse(courseId, course);
+        return courseService.updateCourse(courseId, request);
     }
 
     @GetMapping("/{courseId}")
     public Course getCourse(@PathVariable Long courseId) {
-        return courseService.getCourseById(courseId);
+        return courseService.getCourse(courseId);
     }
 
     @GetMapping("/instructor/{instructorId}")
