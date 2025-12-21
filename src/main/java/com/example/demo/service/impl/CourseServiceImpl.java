@@ -1,6 +1,5 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.CourseRequest;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.Course;
 import com.example.demo.model.User;
@@ -26,34 +25,26 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course createCourse(Long instructorId, CourseRequest request) {
+    public Course createCourse(Long instructorId, Course course) {
 
         User instructor = userRepository.findById(instructorId)
                 .orElseThrow(() -> new ResourceNotFoundException("Instructor not found"));
 
-        if (courseRepository.existsByTitleAndInstructorId(request.getTitle(), instructorId)) {
-            throw new IllegalArgumentException("Course title already exists for this instructor");
-        }
-
-        Course course = Course.builder()
-                .title(request.getTitle())
-                .description(request.getDescription())
-                .category(request.getCategory())
-                .instructor(instructor)
-                .build();
+        course.setId(null); // safety
+        course.setInstructor(instructor);
 
         return courseRepository.save(course);
     }
 
     @Override
-    public Course updateCourse(Long courseId, CourseRequest request) {
+    public Course updateCourse(Long courseId, Course course) {
 
         Course existing = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
-        existing.setTitle(request.getTitle());
-        existing.setDescription(request.getDescription());
-        existing.setCategory(request.getCategory());
+        existing.setTitle(course.getTitle());
+        existing.setDescription(course.getDescription());
+        existing.setCategory(course.getCategory());
 
         return courseRepository.save(existing);
     }
