@@ -3,9 +3,11 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "progress")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,12 +19,23 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;          // NOT_STARTED, IN_PROGRESS, COMPLETED
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    private Integer progressPercent; // 0 – 100
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lesson_id", nullable = false)
+    private MicroLesson microLesson;
 
-    private Integer score;
+    @Column(nullable = false)
+    private String status;   // NOT_STARTED, IN_PROGRESS, COMPLETED
 
+    @Column(nullable = false)
+    private Integer progressPercent; // 0–100
+
+    private BigDecimal score;
+
+    @Column(nullable = false)
     private LocalDateTime lastAccessedAt;
 
     @PrePersist

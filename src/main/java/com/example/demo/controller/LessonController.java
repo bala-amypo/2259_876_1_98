@@ -16,24 +16,27 @@ public class LessonController {
         this.lessonService = lessonService;
     }
 
-    @PostMapping
-    public MicroLesson createLesson(@RequestBody MicroLesson lesson) {
-        return lessonService.createLesson(lesson);
+    @PostMapping("/course/{courseId}")
+    public MicroLesson addLesson(@PathVariable Long courseId,
+                                 @RequestBody MicroLesson lesson) {
+        return lessonService.addLesson(courseId, lesson);
     }
 
-    @PutMapping("/{id}")
-    public MicroLesson updateLesson(@PathVariable Long id,
+    @PutMapping("/{lessonId}")
+    public MicroLesson updateLesson(@PathVariable Long lessonId,
                                     @RequestBody MicroLesson lesson) {
-        return lessonService.updateLesson(id, lesson);
+        return lessonService.updateLesson(lessonId, lesson);
     }
 
-    @GetMapping("/{id}")
-    public MicroLesson getLesson(@PathVariable Long id) {
-        return lessonService.getLesson(id);
+    @GetMapping("/{lessonId}")
+    public MicroLesson getLesson(@PathVariable Long lessonId) {
+        return lessonService.getLesson(lessonId);
     }
 
-    @GetMapping
-    public List<MicroLesson> getAllLessons() {
-        return lessonService.getAllLessons();
+    @GetMapping("/search")
+    public List<MicroLesson> searchLessons(@RequestParam(required = false) String tags,
+                                           @RequestParam(required = false) String difficulty,
+                                           @RequestParam(required = false) String contentType) {
+        return lessonService.findLessonsByFilters(tags, difficulty, contentType);
     }
 }

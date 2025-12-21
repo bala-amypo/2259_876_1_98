@@ -12,19 +12,32 @@ import java.util.List;
 public class LessonServiceImpl implements LessonService {
 
     private final MicroLessonRepository lessonRepository;
+    private final CourseRepository courseRepository;
 
-    public LessonServiceImpl(MicroLessonRepository lessonRepository) {
+    public LessonServiceImpl(MicroLessonRepository lessonRepository,
+                             CourseRepository courseRepository) {
         this.lessonRepository = lessonRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
-    public MicroLesson createLesson(MicroLesson lesson) {
+    public MicroLesson addLesson(Long courseId, MicroLesson lesson) {
+
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+
+        if (lesson.getDurationMinutes() <= 0 || lesson.getDurationMinutes() > 15) {
+            throw new IllegalArgumentException("Invalid lesson duration");
+        }
+
+        lesson.setCourse(course);
         return lessonRepository.save(lesson);
     }
 
     @Override
-    public MicroLesson updateLesson(Long id, MicroLesson lesson) {
-        MicroLesson existing = lessonRepository.findById(id)
+    public MicroLesson updateLesson(Long lessonId, MicroLesson lesson) {
+
+        MicroLesson existing = lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
         existing.setTitle(lesson.getTitle());
@@ -38,13 +51,13 @@ public class LessonServiceImpl implements LessonService {
     }
 
     @Override
-    public MicroLesson getLesson(Long id) {
-        return lessonRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
+    public List<MicroLesson> findLessonsByFilters(String tags, String difficulty, String contentType) {
+        return lessonRepository.findByFilters(tags, difficulty, contentType);
     }
 
     @Override
-    public List<MicroLesson> getAllLessons() {
-        return lessonRepository.findAll();
+    public MicroLesson getLesson(Long lessonId) {
+        return lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
     }
 }
