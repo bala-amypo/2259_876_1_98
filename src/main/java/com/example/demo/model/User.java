@@ -42,7 +42,10 @@ public class User {
     private List<Recommendation> recommendations;
 
     @PrePersist
-    public void onCreate() {
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = "LEARNER";
+        }
     }
 }
