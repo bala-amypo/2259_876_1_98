@@ -25,12 +25,11 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public Recommendation generateRecommendation(RecommendationRequest request) {
+        Recommendation recommendation = new Recommendation();
+        recommendation.setRecommendedLessonIds("1,2,3");
+        recommendation.setBasisSnapshot("demo");
+        recommendation.setConfidenceScore(BigDecimal.valueOf(0.9));
 
-        Recommendation recommendation = Recommendation.builder()
-                .recommendedLessonIds("1,2,3")
-                .basisSnapshot("demo")
-                .confidenceScore(BigDecimal.valueOf(0.9))
-                .build();
 
         return recommendationRepository.save(recommendation);
     }
