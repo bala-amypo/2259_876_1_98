@@ -17,23 +17,24 @@ public class CourseController {
     }
 
     @PostMapping
-    public Course createCourse(@RequestBody Course course) {
-        return courseService.createCourse(course);
-    }
-
-    @PutMapping("/{id}")
-    public Course updateCourse(@PathVariable Long id,
+    public Course createCourse(@RequestParam Long instructorId,
                                @RequestBody Course course) {
-        return courseService.updateCourse(id, course);
+        return courseService.createCourse(course, instructorId);
     }
 
-    @GetMapping("/{id}")
-    public Course getCourse(@PathVariable Long id) {
-        return courseService.getCourse(id);
+    @PutMapping("/{courseId}")
+    public Course updateCourse(@PathVariable Long courseId,
+                               @RequestBody Course course) {
+        return courseService.updateCourse(courseId, course);
     }
 
-    @GetMapping
-    public List<Course> getAllCourses() {
-        return courseService.getAllCourses();
+    @GetMapping("/{courseId}")
+    public Course getCourse(@PathVariable Long courseId) {
+        return courseService.getCourse(courseId);
+    }
+
+    @GetMapping("/instructor/{instructorId}")
+    public List<Course> getCoursesByInstructor(@PathVariable Long instructorId) {
+        return courseService.listCoursesByInstructor(instructorId);
     }
 }
