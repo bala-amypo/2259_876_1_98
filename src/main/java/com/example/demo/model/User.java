@@ -32,7 +32,6 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    // relationships (defined but not used yet)
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses;
 
