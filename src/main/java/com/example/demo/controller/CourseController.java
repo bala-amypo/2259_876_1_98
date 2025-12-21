@@ -16,12 +16,18 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    // ✅ CREATE COURSE (THIS FIXES SWAGGER BODY)
     @PostMapping
     public Course createCourse(
             @RequestParam Long instructorId,
-            @RequestBody Course course
+            @RequestBody Course course   // ✅ THIS IS THE KEY
     ) {
         return courseService.createCourse(instructorId, course);
+    }
+
+    @GetMapping("/{courseId}")
+    public Course getCourse(@PathVariable Long courseId) {
+        return courseService.getCourse(courseId);
     }
 
     @PutMapping("/{courseId}")
@@ -30,11 +36,6 @@ public class CourseController {
             @RequestBody Course course
     ) {
         return courseService.updateCourse(courseId, course);
-    }
-
-    @GetMapping("/{courseId}")
-    public Course getCourse(@PathVariable Long courseId) {
-        return courseService.getCourse(courseId);
     }
 
     @GetMapping("/instructor/{instructorId}")
