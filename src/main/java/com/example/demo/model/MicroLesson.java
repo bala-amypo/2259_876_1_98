@@ -19,7 +19,11 @@ public class MicroLesson {
 
     @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private Integer durationMinutes;
+
+    @Column(nullable = false)
     private String contentType;
     private String difficulty;
     private String tags;

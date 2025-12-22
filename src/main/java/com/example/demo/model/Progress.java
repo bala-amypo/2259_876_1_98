@@ -18,7 +18,10 @@ public class Progress {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
     private Integer progressPercent;
     private BigDecimal score;
     private LocalDateTime lastAccessedAt;
