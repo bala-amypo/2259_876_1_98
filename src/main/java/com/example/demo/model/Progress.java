@@ -21,8 +21,9 @@ public class Progress {
     @Column(nullable = false)
     private String status;
 
-    @Column(nullable = false)
     private Integer progressPercent;
+
+    
     private BigDecimal score;
     private LocalDateTime lastAccessedAt;
 
