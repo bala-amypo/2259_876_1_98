@@ -46,5 +46,4 @@ public class Course {
             createdAt = LocalDateTime.now();
         }
     }
-
 }
