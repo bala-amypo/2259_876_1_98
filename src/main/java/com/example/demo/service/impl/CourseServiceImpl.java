@@ -30,5 +30,45 @@ public class CourseServiceImpl implements CourseService {
         User instructor = userRepository.findById(instructorId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (!"INSTRUCTOR".equals(instructor.getRole()) &&
-            !"ADMIN".equals(instructor.ge
+        if (!"INSTRUCTOR".equals(instructor.getRole())
+                && !"ADMIN".equals(instructor.getRole())) {
+            throw new IllegalArgumentException("User is not allowed to create courses");
+        }
+
+        if (course.getTitle() == null || course.getTitle().isBlank()) {
+            throw new IllegalArgumentException("Course title is required");
+        }
+
+        if (courseRepository.existsByTitleAndInstructorId(
+                course.getTitle(), instructorId)) {
+            throw new IllegalArgumentException("Course title already exists for instructor");
+        }
+
+        course.setInstructor(instructor);
+        return courseRepository.save(course);
+    }
+
+    @Override
+    public Course updateCourse(Long courseId, Course course) {
+
+        Course existingCourse = courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+
+        existingCourse.setTitle(course.getTitle());
+        existingCourse.setDescription(course.getDescription());
+        existingCourse.setCategory(course.getCategory());
+
+        return courseRepository.save(existingCourse);
+    }
+
+    @Override
+    public List<Course> listCoursesByInstructor(Long instructorId) {
+        return courseRepository.findByInstructorId(instructorId);
+    }
+
+    @Override
+    public Course getCourse(Long courseId) {
+        return courseRepository.findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+    }
+}

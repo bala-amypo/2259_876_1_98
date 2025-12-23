@@ -32,11 +32,26 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            getAllClaims(token);
+            extractAllClaims(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public String extrac
+    public String extractUsername(String token) {
+        return extractAllClaims(token).getSubject();
+    }
+
+    public Claims extractClaims(String token) {
+        return extractAllClaims(token);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+}
