@@ -35,7 +35,6 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "instructor")
-    @JsonIgnore
     private List<Course> courses;
 
     @PrePersist
