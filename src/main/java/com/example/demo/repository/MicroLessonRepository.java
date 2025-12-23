@@ -9,8 +9,5 @@ import com.example.demo.model.MicroLesson;
 public interface MicroLessonRepository extends JpaRepository<MicroLesson, Long> {
 
     List<MicroLesson> findByTagsContainingAndDifficultyAndContentType(
-            String tags,
-            String difficulty,
-            String contentType
-    );
+            String tags, String difficulty, String contentType);
 }

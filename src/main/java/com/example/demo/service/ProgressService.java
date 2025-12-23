@@ -1,20 +1,14 @@
 package com.example.demo.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import com.example.demo.dto.RecommendationRequest;
-import com.example.demo.model.Recommendation;
+import com.example.demo.model.Progress;
 
-public interface RecommendationService {
+public interface ProgressService {
 
-    Recommendation generateRecommendation(Long userId, RecommendationRequest params);
+    Progress recordProgress(Long userId, Long lessonId, Progress progress);
 
-    Recommendation getLatestRecommendation(Long userId);
+    Progress getProgress(Long userId, Long lessonId);
 
-    List<Recommendation> getRecommendations(
-            Long userId,
-            LocalDate from,
-            LocalDate to
-    );
+    List<Progress> getUserProgress(Long userId);
 }
