@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,6 +35,7 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "instructor")
+    @JsonIgnore
     private List<Course> courses;
 
     @PrePersist
