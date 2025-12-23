@@ -41,7 +41,10 @@ public class Course {
     private List<MicroLesson> microLessons;
 
     @PrePersist
-    public void onCreate() {
-        this.createdAt = LocalDateTime.now();
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
     }
+
 }
