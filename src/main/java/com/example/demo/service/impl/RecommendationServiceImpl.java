@@ -36,7 +36,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         List<MicroLesson> lessons = microLessonRepository
-                .findByTagsContainingAndDifficultyAndContentType(
+                .findByFilters(
                         params.getTags(),
                         params.getDifficulty(),
                         params.getContentType()

@@ -63,7 +63,7 @@ public class LessonServiceImpl implements LessonService {
             String contentType) {
 
         return microLessonRepository
-                .findByTagsContainingAndDifficultyAndContentType(
+                .findByFilters(
                         tags, difficulty, contentType);
     }
 
