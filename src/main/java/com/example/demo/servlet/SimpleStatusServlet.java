@@ -13,9 +13,12 @@ public class SimpleStatusServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
 
+        response.setContentType("text/plain");   // 🔥 REQUIRED
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("text/plain"); 
-        response.getWriter().write("Servlet Alive"); 
+
+        PrintWriter out = response.getWriter();
+        out.write("Servlet Alive");               // 🔥 REQUIRED
     }
+
 
 }

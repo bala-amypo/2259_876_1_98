@@ -30,9 +30,12 @@ public class LessonServiceImpl implements LessonService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
-        if (lesson.getDurationMinutes() == null || lesson.getDurationMinutes() <= 0) {
-            throw new IllegalArgumentException("Invalid lesson duration");
+        Integer duration = lesson.getDurationMinutes();
+
+        if (duration == null || duration <= 0) {
+            lesson.setDurationMinutes(1); // default safe value
         }
+
 
 
         lesson.setCourse(course);
