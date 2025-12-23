@@ -1,15 +1,21 @@
 package com.example.demo.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class RecommendationRequest {
 
-    private String difficulty;
     private String tags;
+
+    private String difficulty;
+
+    private String contentType;
+
     private Integer maxItems;
 }
