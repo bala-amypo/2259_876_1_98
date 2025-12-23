@@ -1,66 +1,75 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.MicroLesson;
-import com.example.demo.repository.MicroLessonRepository;
-import com.example.demo.repository.CourseRepository;
-import com.example.demo.model.Course;
-
-import com.example.demo.service.LessonService;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.model.Course;
+import com.example.demo.model.MicroLesson;
+import com.example.demo.repository.CourseRepository;
+import com.example.demo.repository.MicroLessonRepository;
+import com.example.demo.service.LessonService;
+
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class LessonServiceImpl implements LessonService {
 
-    private final MicroLessonRepository lessonRepository;
+    private final MicroLessonRepository microLessonRepository;
     private final CourseRepository courseRepository;
-
-    public LessonServiceImpl(MicroLessonRepository lessonRepository,
-                             CourseRepository courseRepository) {
-        this.lessonRepository = lessonRepository;
-        this.courseRepository = courseRepository;
-    }
 
     @Override
     public MicroLesson addLesson(Long courseId, MicroLesson lesson) {
 
+        if (lesson == null) {
+            throw new IllegalArgumentException("Lesson cannot be null");
+        }
+
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
-        if (lesson.getDurationMinutes() <= 0 || lesson.getDurationMinutes() > 15) {
+        if (lesson.getDurationMinutes() == null ||
+            lesson.getDurationMinutes() <= 0 ||
+            lesson.getDurationMinutes() > 15) {
             throw new IllegalArgumentException("Invalid lesson duration");
         }
 
         lesson.setCourse(course);
-        return lessonRepository.save(lesson);
+        return microLessonRepository.save(lesson);
     }
 
     @Override
     public MicroLesson updateLesson(Long lessonId, MicroLesson lesson) {
 
-        MicroLesson existing = lessonRepository.findById(lessonId)
+        MicroLesson existingLesson = microLessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
 
-        existing.setTitle(lesson.getTitle());
-        existing.setDurationMinutes(lesson.getDurationMinutes());
-        existing.setContentType(lesson.getContentType());
-        existing.setDifficulty(lesson.getDifficulty());
-        existing.setTags(lesson.getTags());
-        existing.setPublishDate(lesson.getPublishDate());
+        existingLesson.setTitle(lesson.getTitle());
+        existingLesson.setDurationMinutes(lesson.getDurationMinutes());
+        existingLesson.setContentType(lesson.getContentType());
+        existingLesson.setDifficulty(lesson.getDifficulty());
+        existingLesson.setTags(lesson.getTags());
+        existingLesson.setPublishDate(lesson.getPublishDate());
 
-        return lessonRepository.save(existing);
+        return microLessonRepository.save(existingLesson);
     }
 
     @Override
-    public List<MicroLesson> findLessonsByFilters(String tags, String difficulty, String contentType) {
-        return lessonRepository.findByFilters(tags, difficulty, contentType);
+    public List<MicroLesson> findLessonsByFilters(
+            String tags,
+            String difficulty,
+            String contentType) {
+
+        return microLessonRepository
+                .findByTagsContainingAndDifficultyAndContentType(
+                        tags, difficulty, contentType);
     }
 
     @Override
     public MicroLesson getLesson(Long lessonId) {
-        return lessonRepository.findById(lessonId)
+        return microLessonRepository.findById(lessonId)
                 .orElseThrow(() -> new ResourceNotFoundException("Lesson not found"));
     }
 }

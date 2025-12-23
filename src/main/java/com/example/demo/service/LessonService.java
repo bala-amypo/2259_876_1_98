@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.MicroLesson;
 import java.util.List;
+
+import com.example.demo.model.MicroLesson;
 
 public interface LessonService {
 
@@ -9,7 +10,11 @@ public interface LessonService {
 
     MicroLesson updateLesson(Long lessonId, MicroLesson lesson);
 
-    List<MicroLesson> findLessonsByFilters(String tags, String difficulty, String contentType);
+    List<MicroLesson> findLessonsByFilters(
+            String tags,
+            String difficulty,
+            String contentType
+    );
 
     MicroLesson getLesson(Long lessonId);
 }
