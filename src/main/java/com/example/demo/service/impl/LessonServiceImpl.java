@@ -30,11 +30,10 @@ public class LessonServiceImpl implements LessonService {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course not found"));
 
-        if (lesson.getDurationMinutes() == null ||
-            lesson.getDurationMinutes() <= 0 ||
-            lesson.getDurationMinutes() > 15) {
+        if (lesson.getDurationMinutes() == null || lesson.getDurationMinutes() <= 0) {
             throw new IllegalArgumentException("Invalid lesson duration");
         }
+
 
         lesson.setCourse(course);
         return microLessonRepository.save(lesson);
