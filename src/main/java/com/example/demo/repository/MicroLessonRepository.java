@@ -3,15 +3,22 @@ package com.example.demo.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.example.demo.model.MicroLesson;
 
-public interface MicroLessonRepository
-        extends JpaRepository<MicroLesson, Long> {
+public interface MicroLessonRepository extends JpaRepository<MicroLesson, Long> {
 
+    @Query("""
+        SELECT m FROM MicroLesson m
+        WHERE (:tags IS NULL OR m.tags LIKE %:tags%)
+          AND (:difficulty IS NULL OR m.difficulty = :difficulty)
+          AND (:contentType IS NULL OR m.contentType = :contentType)
+    """)
     List<MicroLesson> findByFilters(
-            String tags,
-            String difficulty,
-            String contentType
+            @Param("tags") String tags,
+            @Param("difficulty") String difficulty,
+            @Param("contentType") String contentType
     );
 }
