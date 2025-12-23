@@ -5,12 +5,13 @@ import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "users")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "users")
 public class User {
 
     @Id
