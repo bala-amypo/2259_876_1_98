@@ -38,8 +38,9 @@ public class User {
     private List<Course> courses;
 
     @PrePersist
-    void onCreate() {
+    public void prePersist() {
         createdAt = LocalDateTime.now();
         if (role == null) role = "LEARNER";
     }
+
 }
