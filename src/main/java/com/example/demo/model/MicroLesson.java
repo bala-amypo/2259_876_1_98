@@ -1,23 +1,15 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import jakarta.persistence.*;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.time.LocalDate;
 
-@Getter
-@Setter
+@Entity
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "micro_lessons")
 public class MicroLesson {
 
     @Id
@@ -25,23 +17,17 @@ public class MicroLesson {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private Integer durationMinutes;
 
-    private String contentType;
+    private String contentType; // VIDEO / TEXT
 
-    private String difficulty;
+    private String difficulty; // BEGINNER / INTERMEDIATE / ADVANCED
 
     private String tags;
 
     private LocalDate publishDate;
-
-    @OneToMany(mappedBy = "microLesson")
-    private List<Progress> progressList;
 }
