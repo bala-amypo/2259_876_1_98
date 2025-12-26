@@ -1,21 +1,10 @@
 package com.example.demo.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+import java.math.BigDecimal;
+
+@Data
 public class RecommendationRequest {
-
-    private String tags;
-
-    private String difficulty;
-
-    private String contentType;
-
-    private Integer maxItems;
+    private BigDecimal confidenceScore;
 }
