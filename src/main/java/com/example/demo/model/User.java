@@ -1,46 +1,51 @@
 package com.example.demo.model;
 
-import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false, length=100)
+    @Column(nullable = false, length = 100)
     private String fullName;
 
-    @Column(nullable=false, unique=true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String role;
 
+    @Column(length = 50)
     private String preferredLearningStyle;
 
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "instructor")
+    @JsonIgnore   // 🔥 FIX: stops infinite recursion
     private List<Course> courses;
 
     @PrePersist
     public void prePersist() {
-        createdAt = LocalDateTime.now();
-        if (role == null) role = "LEARNER";
+        this.createdAt = LocalDateTime.now();
+        if (this.role == null) {
+            this.role = "LEARNER";
+        }
     }
-
 }
