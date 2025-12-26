@@ -28,47 +28,48 @@ public class ProgressServiceImpl implements ProgressService {
         this.microLessonRepository = microLessonRepository;
     }
 
+    // ✅ REQUIRED BY INTERFACE
+    @Override
+    public Progress getProgress(Long userId, Long lessonId) {
+        return progressRepository.findByUserIdAndMicroLessonId(userId, lessonId)
+                .orElseThrow(() -> new RuntimeException("Progress not found"));
+    }
+
+    // ✅ CREATE / UPDATE PROGRESS (FK SAFE)
     @Override
     public Progress recordProgress(Long userId, Long lessonId, Progress incoming) {
 
-        // 🔹 1. Validate input
         if (incoming == null) {
             throw new RuntimeException("Progress data required");
         }
 
-        // 🔹 2. Fetch User (FK safety)
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🔹 3. Fetch MicroLesson (FK safety)
         MicroLesson lesson = microLessonRepository.findById(lessonId)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
-        // 🔹 4. Check if progress already exists
         Optional<Progress> existingOpt =
                 progressRepository.findByUserIdAndMicroLessonId(userId, lessonId);
 
         Progress progress;
 
         if (existingOpt.isPresent()) {
-            // UPDATE existing progress
             progress = existingOpt.get();
         } else {
-            // CREATE new progress
             progress = new Progress();
             progress.setUser(user);
-            progress.setMicroLesson(lesson); // 🔥 REQUIRED for FK
+            progress.setMicroLesson(lesson); // 🔥 FK FIX
         }
 
-        // 🔹 5. Update progress fields
         progress.setStatus(incoming.getStatus());
         progress.setProgressPercent(incoming.getProgressPercent());
         progress.setScore(incoming.getScore());
 
-        // 🔹 6. Save
         return progressRepository.save(progress);
     }
 
+    // ✅ REQUIRED BY INTERFACE
     @Override
     public List<Progress> getUserProgress(Long userId) {
         return progressRepository.findByUserIdOrderByLastAccessedAtDesc(userId);
