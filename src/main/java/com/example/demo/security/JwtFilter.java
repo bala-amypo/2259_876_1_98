@@ -31,7 +31,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // 🔥 ABSOLUTE FIX: DO NOT FILTER AUTH ENDPOINTS
         if (path.startsWith("/auth")) {
             filterChain.doFilter(request, response);
             return;
