@@ -28,4 +28,5 @@ public class AuthController {
                 authRequest.getPassword()
         );
     }
+    
 }
