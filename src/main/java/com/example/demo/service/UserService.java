@@ -5,7 +5,7 @@ import com.example.demo.model.User;
 
 public interface UserService {
 
-    User register(RegisterRequest request);
+    User register(User user);
 
     AuthResponse login(String email, String password);
 
