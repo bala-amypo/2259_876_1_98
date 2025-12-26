@@ -16,15 +16,24 @@ public class ProgressController {
         this.progressService = progressService;
     }
 
+    // existing
     @PostMapping
-    public Progress record(@RequestParam Long userId,
-                           @RequestParam Long lessonId,
-                           @RequestBody Progress progress) {
+    public Progress recordProgress(@RequestParam Long userId,
+                                   @RequestParam Long lessonId,
+                                   @RequestBody Progress progress) {
         return progressService.recordProgress(userId, lessonId, progress);
     }
 
+    // existing
     @GetMapping("/{userId}")
-    public List<Progress> list(@PathVariable Long userId) {
+    public List<Progress> getUserProgress(@PathVariable Long userId) {
         return progressService.getUserProgress(userId);
+    }
+
+    // STEP-5 REQUIRED (added)
+    @GetMapping("/lesson/{lessonId}")
+    public Progress getLessonProgress(@PathVariable Long lessonId,
+                                      @RequestParam Long userId) {
+        return progressService.getProgress(userId, lessonId);
     }
 }
