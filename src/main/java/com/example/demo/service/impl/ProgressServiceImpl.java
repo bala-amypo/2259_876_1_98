@@ -7,9 +7,11 @@ import com.example.demo.repository.MicroLessonRepository;
 import com.example.demo.repository.ProgressRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.ProgressService;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProgressServiceImpl implements ProgressService {
@@ -27,32 +29,44 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
-    public Progress recordProgress(Long userId, Long lessonId, Progress progress) {
+    public Progress recordProgress(Long userId, Long lessonId, Progress incoming) {
+
+        // 🔹 1. Validate input
+        if (incoming == null) {
+            throw new RuntimeException("Progress data required");
+        }
+
+        // 🔹 2. Fetch User (FK safety)
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // 🔹 3. Fetch MicroLesson (FK safety)
         MicroLesson lesson = microLessonRepository.findById(lessonId)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
 
-        Progress existing = progressRepository
-                .findByUserIdAndMicroLessonId(userId, lessonId)
-                .orElse(null);
+        // 🔹 4. Check if progress already exists
+        Optional<Progress> existingOpt =
+                progressRepository.findByUserIdAndMicroLessonId(userId, lessonId);
 
-        if (existing == null) {
+        Progress progress;
+
+        if (existingOpt.isPresent()) {
+            // UPDATE existing progress
+            progress = existingOpt.get();
+        } else {
+            // CREATE new progress
+            progress = new Progress();
             progress.setUser(user);
-            progress.setMicroLesson(lesson);
-            return progressRepository.save(progress);
+            progress.setMicroLesson(lesson); // 🔥 REQUIRED for FK
         }
 
-        existing.setStatus(progress.getStatus());
-        existing.setProgressPercent(progress.getProgressPercent());
-        existing.setScore(progress.getScore());
-        return progressRepository.save(existing);
-    }
+        // 🔹 5. Update progress fields
+        progress.setStatus(incoming.getStatus());
+        progress.setProgressPercent(incoming.getProgressPercent());
+        progress.setScore(incoming.getScore());
 
-    @Override
-    public Progress getProgress(Long userId, Long lessonId) {
-        return progressRepository.findByUserIdAndMicroLessonId(userId, lessonId)
-                .orElseThrow(() -> new RuntimeException("Progress not found"));
+        // 🔹 6. Save
+        return progressRepository.save(progress);
     }
 
     @Override
