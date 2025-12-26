@@ -1,23 +1,16 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Entity
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Entity
-@Table(name = "recommendations")
 public class Recommendation {
 
     @Id
@@ -25,19 +18,15 @@ public class Recommendation {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private LocalDateTime generatedAt;
 
-    @Column(length = 1000)
-    private String recommendedLessonIds; // comma-separated ids
+    private String recommendedLessonIds; // CSV
 
-    @Column(length = 2000)
     private String basisSnapshot;
 
-    @Column(nullable = false)
-    private BigDecimal confidenceScore; // 0.0 – 1.0
+    private BigDecimal confidenceScore;
 
     @PrePersist
     public void prePersist() {
