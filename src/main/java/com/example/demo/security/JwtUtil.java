@@ -10,7 +10,7 @@ import java.util.Map;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = "secret-key-demo";
+    private static final String SECRET = "my-secret-key"; // plain string
     private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
 
     public String generateToken(Map<String, Object> claims, String subject) {
