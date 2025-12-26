@@ -1,34 +1,28 @@
-package com.example.demo.config;
+package com.example.demo.controller;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
+import com.example.demo.dto.RecommendationRequest;
+import com.example.demo.model.Recommendation;
+import com.example.demo.service.RecommendationService;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+@RestController
+@RequestMapping("/recommendations")
+public class RecommendationController {
 
-import java.util.List;
+    private final RecommendationService recommendationService;
 
-@Configuration
-public class SwaggerConfig {
+    public RecommendationController(RecommendationService recommendationService) {
+        this.recommendationService = recommendationService;
+    }
 
-    @Bean
-    public OpenAPI customOpenAPI() {
+    @PostMapping("/{userId}")
+    public Recommendation generate(@PathVariable Long userId,
+                                   @RequestBody RecommendationRequest request) {
+        return recommendationService.generateRecommendation(userId, request);
+    }
 
-        SecurityScheme bearerAuth = new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .scheme("bearer")
-                .bearerFormat("JWT");
-
-        return new OpenAPI()
-                .servers(List.of(
-                        new Server().url("https://9149.32procr.amypo.ai/")
-                ))
-                .components(new Components()
-                        .addSecuritySchemes("bearerAuth", bearerAuth))
-                .addSecurityItem(new SecurityRequirement()
-                        .addList("bearerAuth"));
+    @GetMapping("/latest/{userId}")
+    public Recommendation latest(@PathVariable Long userId) {
+        return recommendationService.getLatestRecommendation(userId);
     }
 }
