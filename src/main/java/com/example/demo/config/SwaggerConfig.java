@@ -28,11 +28,11 @@ public class SwaggerConfig {
                         .title("Micro-Learning Content Recommendation API")
                         .version("1.0")
                         .description("College Review – Secure API with JWT"))
-                .servers(List.of(
-                        new Server()
-                                .url("https://9149.32procr.amypo.ai/")
-                                .description("College Deployment Server")
-                ))
+                // .servers(List.of(
+                //         new Server()
+                //                 .url("https://9149.32procr.amypo.ai/")
+                //                 .description("College Deployment Server")
+                // ))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", bearerAuth))
                 .addSecurityItem(new SecurityRequirement()
