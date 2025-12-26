@@ -1,28 +1,41 @@
-package com.example.demo.controller;
+package com.example.demo.config;
 
-import com.example.demo.dto.RecommendationRequest;
-import com.example.demo.model.Recommendation;
-import com.example.demo.service.RecommendationService;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.info.Info;
 
-@RestController
-@RequestMapping("/recommendations")
-public class RecommendationController {
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-    private final RecommendationService recommendationService;
+import java.util.List;
 
-    public RecommendationController(RecommendationService recommendationService) {
-        this.recommendationService = recommendationService;
-    }
+@Configuration
+public class SwaggerConfig {
 
-    @PostMapping("/{userId}")
-    public Recommendation generate(@PathVariable Long userId,
-                                   @RequestBody RecommendationRequest request) {
-        return recommendationService.generateRecommendation(userId, request);
-    }
+    @Bean
+    public OpenAPI customOpenAPI() {
 
-    @GetMapping("/latest/{userId}")
-    public Recommendation latest(@PathVariable Long userId) {
-        return recommendationService.getLatestRecommendation(userId);
+        SecurityScheme bearerAuth = new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
+                .scheme("bearer")
+                .bearerFormat("JWT");
+
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Micro-Learning Content Recommendation API")
+                        .version("1.0")
+                        .description("College Review – Secure API with JWT"))
+                .servers(List.of(
+                        new Server()
+                                .url("https://9149.32procr.amypo.ai/")
+                                .description("College Deployment Server")
+                ))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", bearerAuth))
+                .addSecurityItem(new SecurityRequirement()
+                        .addList("bearerAuth"));
     }
 }
