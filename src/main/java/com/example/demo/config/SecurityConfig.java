@@ -21,7 +21,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // 🔑 REQUIRED for UserServiceImpl + tests
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

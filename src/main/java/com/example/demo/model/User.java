@@ -38,7 +38,7 @@ public class User {
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "instructor")
-    @JsonIgnore   // 🔥 FIX: stops infinite recursion
+    @JsonIgnore   
     private List<Course> courses;
 
     @PrePersist
