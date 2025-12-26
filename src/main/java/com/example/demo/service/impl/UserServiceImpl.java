@@ -23,23 +23,32 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil jwtUtil;
 
     @Override
-    public User register(User user) {
+public User register(RegisterRequest request) {
 
-        if (user == null) {
-            throw new IllegalArgumentException("User cannot be null");
-        }
-
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Email already exists");
-        }
-
-        if (user.getRole() == null) {
-            user.setRole("LEARNER");
-        }
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+    if (request == null) {
+        throw new IllegalArgumentException("Register request cannot be null");
     }
+
+    if (userRepository.existsByEmail(request.getEmail())) {
+        throw new IllegalArgumentException("Email already exists");
+    }
+
+    User user = new User();
+    user.setFullName(request.getFullName());
+    user.setEmail(request.getEmail());
+    user.setPreferredLearningStyle(request.getPreferredLearningStyle());
+
+    if (request.getRole() == null) {
+        user.setRole("LEARNER");
+    } else {
+        user.setRole(request.getRole());
+    }
+
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+    return userRepository.save(user);
+}
+
 
     @Override
     public AuthResponse login(String email, String password) {

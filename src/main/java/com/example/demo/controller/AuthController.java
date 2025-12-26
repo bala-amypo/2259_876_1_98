@@ -17,9 +17,10 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userService.register(user);
+    public User register(@RequestBody RegisterRequest request) {
+        return userService.register(request);
     }
+
 
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
@@ -28,5 +29,5 @@ public class AuthController {
                 authRequest.getPassword()
         );
     }
-    
+
 }
