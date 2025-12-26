@@ -69,7 +69,6 @@ public class ProgressServiceImpl implements ProgressService {
         return progressRepository.save(progress);
     }
 
-    // ✅ REQUIRED BY INTERFACE
     @Override
     public List<Progress> getUserProgress(Long userId) {
         return progressRepository.findByUserIdOrderByLastAccessedAtDesc(userId);
