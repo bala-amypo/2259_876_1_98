@@ -17,13 +17,11 @@ public class AuthController {
         this.userService = userService;
     }
 
-    // REGISTER (JSON body already)
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.register(user);
     }
 
-    // LOGIN (JSON INPUT BOX IN SWAGGER)
     @PostMapping("/login")
     public AuthResponse login(@RequestBody AuthRequest request) {
         return userService.login(
