@@ -4,6 +4,7 @@ import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,16 +17,18 @@ public class AuthController {
         this.userService = userService;
     }
 
+    // REGISTER (JSON body already)
     @PostMapping("/register")
     public User register(@RequestBody User user) {
         return userService.register(user);
     }
 
+    // LOGIN (JSON INPUT BOX IN SWAGGER)
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody AuthRequest request) {
         return userService.login(
-                authRequest.getEmail(),
-                authRequest.getPassword()
+                request.getEmail(),
+                request.getPassword()
         );
     }
 }
