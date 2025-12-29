@@ -29,7 +29,7 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "instructor_id")
-    @JsonIgnoreProperties({"courses"}) // 🔥 FIX
+    @JsonIgnoreProperties({"courses"}) 
     private User instructor;
 
     @PrePersist
